@@ -1,4 +1,4 @@
-const Reservation = require('../models/Reservation');
+const Reservation = require('../models/reservation');
 
 // Controller function to get all reservations
 const getAllReservations = async (req, res) => {
@@ -26,8 +26,9 @@ const getAllReservationsForUser = async (req, res) => {
 // Controller function to create a new reservation
 const createReservation = async (req, res) => {
   try {
-    const { user, startTime, endTime } = req.body;
-    const newReservation = new Reservation({ user, startTime, endTime });
+    const { roomId,userId, startTime, endTime } = req.body;
+    console.log(req.body);
+    const newReservation = new Reservation({ userId,roomId, startTime, endTime });
     await newReservation.save();
     res.status(201).send({ message: 'Reservation created successfully', reservation: newReservation });
   } catch (error) {

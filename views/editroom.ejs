@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1>Edit Room</h1>
+    <form action="/rooms/editroom/<%= room._id %>" method="POST">
+        <input type="hidden" name="roomId" value="<%= room._id %>">
+        <label for="roomName">Room Name:</label>
+        <input type="text" id="roomName" name="roomName" value="<%= room.name %>">
+        <label for="roomCapacity">Room Capacity:</label>
+        <input type="number" id="roomCapacity" name="roomCapacity" value="<%= room.capacity %>">
+        <label for="roomAmenities">Room Amenities:</label>
+        <input type="text" id="roomAmenities" name="roomAmenities" value="<%= room.amenities %>">
+        <br>
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    /* Your custom styles here */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    nav {
+      background-color: #333;
+      color: #fff;
+      padding: 15px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      padding: 10px 20px;
+      margin: 0 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #555;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/createroom">Add Room</a></li>
+      <li><a href="/makereservation">Add Reservation</a></li>
+      <% if (isAuthenticated) { %>
+        <li>
+          <form action="/auth/logout" method="post">
+            <button type="submit" style="background-color: #d9534f; border: none; color: #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Logout</button>
+          </form>
+        </li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+      <% } %>
+    </ul>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <div class="container">
+    <h1>Welcome to the Dashboard</h1>
+    <% if (isAuthenticated) { %>
+      <p class="message">You are logged in!</p>
+    <% } else { %>
+      <p class="message">Please login or register to access the dashboard.</p>
+    <% } %>
+  
+  <div>
+    <% if (meetingRooms && meetingRooms.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Action</th> <!-- Add action column for CRUD operations -->
+          </tr>
+        </thead>
+        <tbody>
+          <% meetingRooms.forEach(room => { %>
+            <tr>
+              <td><%= room.name %></td>
+              <td><%= room.capacity %></td>
+              <td>
+                <a href="editroom/<%= room._id %>">Edit</a> |
+                <a href="#" onclick="confirmDelete('<%= room._id %>')">Delete</a>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+        
+      </table>
+    <% } else { %>
+      <p>No meeting rooms found.</p>
+    <% } %>
+  </div>
+</div>
+</body>
+<script>
+  function confirmDelete(roomId) {
+    if (confirm('Are you sure you want to delete this room?')) {
+      window.location.href = '/rooms/delete/' + roomId;
+    }
+  }
+</script>
+
+</html>

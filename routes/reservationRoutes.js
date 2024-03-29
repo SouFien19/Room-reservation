@@ -12,13 +12,11 @@ router.get('/user/:userId', authenticate, reservationController.getAllReservatio
 // POST create a new reservation
 router.post('/add', authenticate, reservationController.createReservation);
 
-// GET a single reservation by ID
-router.get('/show/:id', authenticate, reservationController.getReservationById);
-
 // PUT update an existing reservation
-router.put('/update/:id', authenticate, reservationController.updateReservation);
+router.put('/:id', authenticate, reservationController.updateReservation);
 
 // DELETE delete an existing reservation
-router.delete('/delete/:id', authenticate, reservationController.deleteReservation);
+router.delete('/:id', authenticate, reservationController.deleteReservation);
+
 
 module.exports = router;
