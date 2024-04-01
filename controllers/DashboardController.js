@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const Reservation = require('../models/reservation');
-const MeetingRoom = require('../models/meetingRoom');
+const Reservation = require('../models/reservation.model');
+const MeetingRoom = require('../models/MeetingRoom');
 
 const dashboard = async (req, res) => {
   try {

@@ -21,7 +21,7 @@ app.use(cookieParser());
 const indexRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');
 const meetingRoomRoutes = require('./routes/roomRoutes');
-const reservationRoutes = require('./routes/reservationRoutes');
+const reservationRouter = require('./routes/reservation.route');
 const dashboardRouter = require('./routes/dashboardRoutes');
 
 app.use(session({
@@ -33,7 +33,7 @@ app.use(session({
 
 app.use('/auth', authRoutes);
 app.use('/rooms', meetingRoomRoutes);
-app.use('/reservations', reservationRoutes);
+app.use('/reservation', reservationRouter);
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);
 

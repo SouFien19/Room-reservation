@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disponibilité des salles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Disponibilité des salles</h1>
+        <% Object.entries(availability).forEach(([roomId, dates]) => { %>
+            <h2>Salle <%= roomId %></h2>
+            <ul>
+                <% dates.forEach(date => { %>
+                    <li><%= new Date(date.startDate).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}) %> - <%= new Date(date.endDate).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}) %></li>
+                <% }); %>
+            </ul>
+        <% }); %>
+    </div>
+</body>
+</html>

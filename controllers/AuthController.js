@@ -44,7 +44,7 @@ const loginUser = async (req, res) => {
 
     // Envoyer le token dans un cookie et rediriger vers le tableau de bord
     res.cookie('token', token, { httpOnly: true });
-    res.redirect('/resrvation');
+    res.redirect('/Dashboard');
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: 'Internal server error' });
