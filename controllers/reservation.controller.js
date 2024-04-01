@@ -1,5 +1,3 @@
-// reservation.controller.js
-
 const Reservation = require('../models/reservation.model');
 
 exports.getAvailabilityPage = async (req, res, next) => {
@@ -36,7 +34,7 @@ exports.getReservationPage = (req, res, next) => {
 exports.postReservationData = async (req, res, next) => {
     try {
         const { startDate, endDate, roomId } = req.body;
-        const userId = req.session.userId;
+        const userId = req.userId; // Récupérer l'userId de la session ou du token
         const isRoomAvailable = await checkRoomAvailability(startDate, endDate, roomId);
         if (!isRoomAvailable) {
             return res.status(400).send("La salle sélectionnée n'est pas disponible pour ces dates.");
