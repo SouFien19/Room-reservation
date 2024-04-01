@@ -1,44 +1,24 @@
 const jwt = require('jsonwebtoken');
-const MeetingRoom = require('../models/MeetingRoom');
+const Reservation = require('../models/reservation');
+const MeetingRoom = require('../models/meetingRoom');
 
-// Extract token from cookies
-const getTokenFromCookies = (req) => {
-    const cookieHeader = req.headers.cookie;
-  
-    if (cookieHeader) {
-        const cookies = cookieHeader.split(';');
-  
-        for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.startsWith('token=')) {
-                return cookie.substring('token='.length);
-            }
-        }
-    }
-  
-    return null;
-};
-
-// Controller function to render the dashboard view
 const dashboard = async (req, res) => {
   try {
-    // Extract token from cookies
-    const token = getTokenFromCookies(req);
+    const token = req.cookies.token;
 
     if (!token) {
-        // If token is missing, user is not authenticated
-        return res.render('dashboard', { isAuthenticated: false, meetingRooms: [] });
+        return res.render('dashboard', { isAuthenticated: false, meetingRooms: [], reservations: [] });
     }
 
-    // Verify the token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decodedToken.userId;
 
-    // Fetch meeting rooms
     const meetingRooms = await MeetingRoom.find();
+    
+    // Fetch reservations for the current user
+    const reservations = await Reservation.find({ userId: req.userId });
 
-    // Render the dashboard view with meeting rooms and authentication status
-    res.render('dashboard', { isAuthenticated: true, meetingRooms });
+    res.render('dashboard', { isAuthenticated: true, meetingRooms, reservations });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: 'Internal server error' });

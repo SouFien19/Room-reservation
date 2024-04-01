@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-label {
+      font-weight: bold;
+    }
+    .btn-submit {
+      width: 100%;
+    }
+    .btn-submit2 {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 class="text-center title">Réserver une salle de réunion</h2>
+  <form action="/reservation" method="POST">
+    <div class="mb-3">
+      <label for="startDate" class="form-label">Date de début :</label>
+      <input type="date" class="form-control" id="startDate" name="startDate" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="endDate" class="form-label">Date de fin :</label>
+      <input type="date" class="form-control" id="endDate" name="endDate" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="roomId" class="form-label">Salle de réunion :</label>
+      <select class="form-select" id="roomId" name="roomId">
+        <option value="1">Salle A</option>
+        <option value="2">Salle B</option>
+        <option value="3">Salle C</option>
+        <!-- Add other meeting rooms if needed -->
+      </select>
+    </div>
+
+    <div class="btn-group">
+      <button type="submit" class="btn btn-primary btn-submit">Réserver</button>
+      <button type="button" class="btn btn-danger btn-submit" onclick="logout()">Déconnexion</button>
+    </div>
+  </form>
+
+  <form class="mt-3" method="get" action="/availability">
+    <button type="submit" class="btn btn-info btn-submit2">Vérifier la disponibilité de la salle</button>
+  </form>
+</div>
+
+<!-- Bootstrap JS (optional, for some features like dropdowns, modals, etc.) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function logout() {
+    // Add your logout functionality here
+    alert("Logout function triggered");
+  }
+</script>
+
+</body>
+</html>
