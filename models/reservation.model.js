@@ -1,3 +1,4 @@
+// reservation.model.js
 
 const mongoose = require('mongoose');
 
@@ -11,5 +12,3 @@ const reservationSchema = mongoose.Schema({
 const Reservation = mongoose.model('Reservation', reservationSchema);
 
 module.exports = Reservation;
-
-
