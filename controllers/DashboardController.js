@@ -1,13 +1,14 @@
+// DashboardController.js
 const jwt = require('jsonwebtoken');
 const Reservation = require('../models/reservation.model');
-const MeetingRoom = require('../models/MeetingRoom');
+const MeetingRoom = require('../models/meetingRoom');
 
-const dashboard = async (req, res) => {
+exports.dashboard = async (req, res) => {
   try {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.render('dashboard', { isAuthenticated: false, meetingRooms: [], reservations: [], availability: {} });
+      return res.render('dashboard', { isAuthenticated: false, meetingRooms: [], reservations: [], availability: {} });
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
@@ -44,7 +45,3 @@ async function getAvailability() {
         throw error;
     }
 }
-
-module.exports = {
-  dashboard,
-};

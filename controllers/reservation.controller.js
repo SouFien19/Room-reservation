@@ -1,34 +1,15 @@
+// ReservationController.js
 const Reservation = require('../models/reservation.model');
+const MeetingRoom = require('../models/meetingRoom');
 
-exports.getAvailabilityPage = async (req, res, next) => {
+exports.getReservationPage = async (req, res, next) => {
     try {
-        const availability = await getAvailability();
-        res.render('availability', { availability: availability });
+        const meetingRooms = await MeetingRoom.find();
+        res.render('reservation', { meetingRooms });
     } catch (error) {
         console.log(error);
-        res.status(500).send("Une erreur est survenue lors de la récupération des dates disponibles.");
+        res.status(500).send("Une erreur est survenue lors de la récupération des salles disponibles.");
     }
-};
-
-async function getAvailability() {
-    try {
-        const reservations = await Reservation.find();
-        const availability = {};
-        reservations.forEach(reservation => {
-            if (!availability[reservation.roomId]) {
-                availability[reservation.roomId] = [];
-            }
-            availability[reservation.roomId].push({ startDate: reservation.startDate, endDate: reservation.endDate });
-        });
-        return availability;
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-}
-
-exports.getReservationPage = (req, res, next) => {
-    res.render('reservation');
 };
 
 exports.postReservationData = async (req, res, next) => {

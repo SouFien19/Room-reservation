@@ -1,11 +1,11 @@
-// reservation.route.js
-
 const express = require('express');
 const router = express.Router();
-const ReservationController = require("../controllers/reservation.controller");
+const reservationController = require('../controllers/reservation.controller');
 
-router.get('/', ReservationController.getReservationPage);
-router.post('/', ReservationController.postReservationData);
-router.get('/availability', ReservationController.getAvailabilityPage);
+// GET request to display the reservation page
+router.get('/', reservationController.getReservationPage);
+
+// POST request to submit reservation data
+router.post('/', reservationController.postReservationData);
 
 module.exports = router;
