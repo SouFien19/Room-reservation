@@ -12,6 +12,7 @@ router.post('/add', authenticate, roomController.createMeetingRoom);
 
 // PUT update an existing meeting room
 router.post('/editroom/:id', authenticate, roomController.updateMeetingRoom);
+
 // DELETE delete an existing meeting room
 router.get('/delete/:id', authenticate, roomController.deleteMeetingRoom);
 

@@ -20,7 +20,7 @@ router.get('/login', (req, res) => {
 });
 
 // Inside roomRoutes.js
-router.get('/createroom', (req, res) => {
+router.get('/createroom',authenticate, (req, res) => {
     res.render('createroom', { title: 'Create Room' });
 });
 

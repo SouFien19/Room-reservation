@@ -36,6 +36,30 @@
         -ms-transition: background 0.2s ease;
         -o-transition: background 0.2s ease;
     }
+    .btn {
+        display: inline-block;
+        padding: 13px;
+        border-radius: 5px;
+        outline: none;
+        font-size: 18px;
+        letter-spacing: 1.5px;
+        font-weight: bold;
+        width: 100%;
+        cursor: pointer;
+        margin-bottom: 2rem;
+        transition: all 0.1s ease-in-out;
+        border: none;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: var(--color);
+    }
+    
+    .btn:hover {
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.15);
+        transform: scale(1.02);
+    }
     
     a {
         text-decoration: none;
@@ -237,12 +261,13 @@
                 <form action="/auth/login" method="POST" id="loginForm">
                     <input type="text" id="username" name="username" placeholder="USERNAME" required>
                     <input type="password" id="password" name="password" placeholder="PASSWORD" required>
-                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <a href="register" class="btn btn-primary">Register</a>
                 </form>
-                <div class="register-forget opacity">
-                    <a href="register">REGISTER</a>
-                    <a href="#">FORGOT PASSWORD</a>
-                </div>
+                
+               
+                    
+             
             </div>
             <div class="circle circle-two"></div>
         </div>

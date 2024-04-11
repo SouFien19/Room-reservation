@@ -1,4 +1,7 @@
 const MeetingRoom = require('../models/MeetingRoom');
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+
 
 // Controller function to get all meeting rooms
 const getAllMeetingRooms = async (req, res) => {
@@ -67,6 +70,27 @@ const renderEditRoomPage = async (req, res) => {
       res.status(500).send({ message: 'Internal server error' });
   }
 };
+
+const renderCreateRoomPage = async (req, res) => {
+  try {
+    // Extract token from request headers or query parameters
+    const token = req.headers.authorization.split(' ')[1]; // Assuming token is in the Authorization header
+
+    // Verify the token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Extract user information from the decoded token
+    const user = decodedToken.user; // Assuming user information is stored in the token
+
+    // Pass user information to the view
+    res.render('createroom', { title: 'Create Room', isAuthenticated: true, user }); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+};
+
+
 // Controller function to delete a room
 const deleteMeetingRoom = async (req, res) => {
   try {
@@ -88,5 +112,6 @@ module.exports = {
   getMeetingRoomById,
   updateMeetingRoom,
   deleteMeetingRoom,
-  renderEditRoomPage
+  renderEditRoomPage,
+  renderCreateRoomPage
 };
