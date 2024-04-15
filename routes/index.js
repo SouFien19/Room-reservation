@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Main page route
 router.get('/', (req, res) => {
-    res.send('Welcome to the main page!');
+    res.render('home'); 
 });
 
 // Render the register form
