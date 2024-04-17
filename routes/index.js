@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Main page route
 router.get('/', (req, res) => {
-    res.send('Welcome to the main page!');
+    res.render('home'); 
 });
 
 // Render the register form
@@ -20,7 +20,7 @@ router.get('/login', (req, res) => {
 });
 
 // Inside roomRoutes.js
-router.get('/createroom', (req, res) => {
+router.get('/createroom',authenticate, (req, res) => {
     res.render('createroom', { title: 'Create Room' });
 });
 

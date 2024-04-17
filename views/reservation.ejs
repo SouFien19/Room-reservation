@@ -1,0 +1,163 @@
+<!-- reservation.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+  
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+      }
+  
+      /* Navbar Styles */
+      nav {
+        background-color: #333;
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+  
+      nav h1 {
+        margin: 0;
+      }
+  
+      nav ul {
+        list-style: none;
+        display: flex;
+      }
+  
+      nav ul li {
+        margin: 0 10px;
+      }
+  
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        transition: background-color 0.3s ease;
+      }
+  
+      nav ul li a.btn-danger {
+        background-color: #dc3545;
+      }
+  
+      nav ul li a:hover {
+        background-color: #555;
+      }
+  
+
+    /* Form Container Styles */
+    .container {
+        max-width: 500px;
+        margin: auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 40px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-submit {
+        width: 100%;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #333;
+    }
+</style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-blue">
+    <a class="navbar-brand" href="/">Meeting Room Agency</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="dashboard" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/createroom">Add Room</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/reservation">Add Reservation</a>
+        </li>
+      </ul>
+      <form action="/auth/logout" method="post">
+        <button type="submit" class="btn btn-danger">Logout</button>
+      </form>
+    </div>
+  </nav>
+  <div class="container mt-5">
+    <h2 class="text-center title">Book a Room</h2>
+    <% if (error) { %>
+      <div class="alert alert-danger text-white" role="alert">
+        <%= error %>
+      </div>
+    <% } else if (typeof error === 'undefined') { %>
+      <!-- No error and reservation was successful -->
+      <div class="alert alert-success text-white" role="alert">
+        Reservation successful!
+      </div>
+    <% } %>
+    
+    <form action="/reservation" method="POST">
+      <div class="mb-3">
+        <label for="startDate" class="form-label">Start date :</label>
+        <input type="date" class="form-control" id="startDate" name="startDate" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="endDate" class="form-label">End date :</label>
+        <input type="date" class="form-control" id="endDate" name="endDate" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="roomId" class="form-label">Meeting room :</label>
+        <select class="form-select" id="roomId" name="roomId">
+          <% meetingRooms.forEach(room => { %>
+            <option value="<%= room._id %>"><%= room.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <% if (user) { %>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email :</label>
+            <input type="text" class="form-control" id="email" name="email" value="<%= user.email %>" readonly>
+        </div>
+    <% } %>
+    
+   
+    <button type="submit" class="btn btn-primary btn-submit">Book</button>
+    </form>
+  </div>
+</body>
+
+
+<!-- Bootstrap JS (optional, for some features like dropdowns, modals, etc.) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>

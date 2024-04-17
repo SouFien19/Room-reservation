@@ -1,3 +1,4 @@
+// meetingRoom.js
 const mongoose = require('mongoose');
 
 const meetingRoomSchema = new mongoose.Schema({
@@ -13,6 +14,6 @@ const meetingRoomSchema = new mongoose.Schema({
   ],
 });
 
-const MeetingRoom = mongoose.model('MeetingRoom', meetingRoomSchema);
+const MeetingRoom = mongoose.models.MeetingRoom || mongoose.model('MeetingRoom', meetingRoomSchema);
 
 module.exports = MeetingRoom;

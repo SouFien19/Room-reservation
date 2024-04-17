@@ -1,30 +1,14 @@
 const jwt = require('jsonwebtoken');
 
-const getTokenFromCookies = (req) => {
-    const cookieHeader = req.headers.cookie;
-  
-    if (cookieHeader) {
-        const cookies = cookieHeader.split(';');
-  
-        for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.startsWith('token=')) {
-                return cookie.substring('token='.length);
-            }
-        }
-    }
-  
-    return null;
-};
-
 const authenticate = (req, res, next) => {
-    const token = getTokenFromCookies(req);
+    const token = req.cookies.token;
 
     if (!token) {
         return res.status(401).send({ error: 'Access Denied' });
     }
 
     try {
+        // Vérifier le token JWT
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         req.userId = decodedToken.userId;
         next();

@@ -1,50 +1,52 @@
 const jwt = require('jsonwebtoken');
+const Reservation = require('../models/reservation.model');
 const MeetingRoom = require('../models/MeetingRoom');
+const User = require('../models/user');
 
-// Extract token from cookies
-const getTokenFromCookies = (req) => {
-    const cookieHeader = req.headers.cookie;
-  
-    if (cookieHeader) {
-        const cookies = cookieHeader.split(';');
-  
-        for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.startsWith('token=')) {
-                return cookie.substring('token='.length);
-            }
-        }
-    }
-  
-    return null;
-};
-
-// Controller function to render the dashboard view
-const dashboard = async (req, res) => {
+exports.dashboard = async (req, res) => {
   try {
-    // Extract token from cookies
-    const token = getTokenFromCookies(req);
+    const token = req.cookies.token;
 
     if (!token) {
-        // If token is missing, user is not authenticated
-        return res.render('dashboard', { isAuthenticated: false, meetingRooms: [] });
+      return res.render('dashboard', { isAuthenticated: false, meetingRooms: [], reservations: [], availability: {}, user: null });
     }
 
-    // Verify the token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decodedToken.userId;
 
-    // Fetch meeting rooms
     const meetingRooms = await MeetingRoom.find();
+    
+    // Fetch all reservations and populate roomId and userId fields
+    const reservations = await Reservation.find().populate('roomId').populate('userId', 'username');
 
-    // Render the dashboard view with meeting rooms and authentication status
-    res.render('dashboard', { isAuthenticated: true, meetingRooms });
+    // Fetch availability data using the defined function
+    const availability = await getAvailability();
+
+    // Fetch user data
+    const user = await User.findById(req.userId).select('username');
+
+    res.render('dashboard', { isAuthenticated: true, meetingRooms, reservations, availability, user });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ message: 'Internal server error' });
+    res.status(500).send({ message: 'Internal server error', error: error.message }); // Add error message to response
   }
 };
 
-module.exports = {
-  dashboard,
-};
+
+// Define the getAvailability function
+async function getAvailability() {
+  try {
+    const reservations = await Reservation.find();
+    const availability = {};
+    reservations.forEach(reservation => {
+      if (!availability[reservation.roomId]) {
+        availability[reservation.roomId] = [];
+      }
+      availability[reservation.roomId].push({ startDate: reservation.startDate, endDate: reservation.endDate });
+    });
+    return availability;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
